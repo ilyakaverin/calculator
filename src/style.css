@@ -1,0 +1,66 @@
+body {
+    margin:0;
+    padding: 0;
+    background-color: rgb(254, 132, 134);
+}
+h1 {
+    color: red;
+}
+.wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px solid black;
+    margin-top: 20vh;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    background: rgb(40,82,142);
+
+}
+.expression, .result {
+    padding:15px;
+    height: 25px;
+    text-align: center;
+    border:1px solid black;
+}
+.grid {
+    display: grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-gap: 20px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.grid button {
+    background: none;
+    border-radius: 100%;
+    border:none;
+    font-size: 2em;
+    color: #fff;
+    padding:15px;
+    outline: 0;
+    
+    
+
+}
+.grid button:active {
+    animation: press 0.2s 1 linear;
+} 
+@keyframes press {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.92);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+.grid button:hover {
+    background:rgba(255, 255, 255, 0.3)
+}
