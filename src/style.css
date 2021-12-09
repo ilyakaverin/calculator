@@ -39,7 +39,7 @@ h1 {
     font-size: 1em;
     letter-spacing: 1px;
     text-align: right;
-    width:75%;
+    width:80%;
     margin:auto;
 }
 
@@ -51,9 +51,10 @@ h1 {
 .grid {
     display: grid;
     grid-template-columns:repeat(4, 1fr);
-    grid-gap: 10px;
+    grid-gap: 15px;
     padding: 25px;
     margin: 0 auto;
+    
 }
 .grid button {
     background: none;
@@ -88,5 +89,10 @@ h1 {
   }
 
 .grid button:hover {
-    background:rgba(255, 255, 255, 0.3)
+    background:rgba(255, 255, 255, 0.1)
 }
+@media (max-width: 429px) {
+    main {
+      max-width: none;
+    }
+  }

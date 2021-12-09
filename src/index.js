@@ -1,4 +1,4 @@
-import calculation, { ops, isValid, sqrt } from './service.js';
+import calculation, { ops, isValid, sqrt, percent } from './service.js';
 
 let display = '';
 const lastChar = (str) => str[str.length - 1];
@@ -30,8 +30,13 @@ expression.addEventListener('click', (e) => {
         }
         if(value === 'sqrt' && !isNaN(lastChar(display))) {
             const a = sqrt(display);
-            display = a
+            display = a;
             render()
+        }
+        if(value === 'percent' && !isNaN(lastChar(display))) {
+            const b = percent(display);
+            display = b;
+            render();
         }
         if((key === 'operation' && !ops.includes(lastChar(display))) && (lastChar(display) !== '.' && display.length !== 0)) {
             display += value;
@@ -42,7 +47,7 @@ expression.addEventListener('click', (e) => {
 
             const output = display.length === 0 ? 'There is no input' : 
                        isValid(display) === false ? 'incorrect input' :
-                       calculation(display);
+                       calculation(display)
 
             result.innerHTML = output;
         }

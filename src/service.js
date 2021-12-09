@@ -41,12 +41,31 @@ const priority = {
     index === arr.length - 1 ? parseFloat(Math.sqrt(item)).toFixed(2) : item)
     .join('')
 }
+export const percent = (str) => {
+    const arr = str.split(/([\+\-\x\/\(\)])/) ///   
+    // if(arr.length === 1) {arr[0] = 100}
+    for(let i = arr.length - 2; i >= 0; i -= 1) {
+     
+        if(!isNaN(arr[i])) {
+            arr[arr.length - 1] = arr[i] * arr[arr.length - 1] / 100; 
+            break;
+        }
+
+    }
+    return arr.join('')
+}
+
+const isInt = (str) => {
+    const a = Number(str)
+    return Number.isInteger(a) ? str : parseFloat(str).toFixed(2)
+  }
 
   
 
 const infixIntoPolish = (str) => {
-    const arr = str.split(/([\+\-\x\/\(\)])/);
-    console.log(arr)
+    const arr = str.split(/([\+\-\x\/\(\)])/); // 
+    
+    // console.log(arr)
     const opsStack = [];
     const peek = (a) => a[a.length - 1];
     
@@ -94,7 +113,7 @@ const infixIntoPolish = (str) => {
       }
     });
   
-    return stack.pop()
+    return  isInt(stack.pop())
   };
 
   export default (str) => calculate(infixIntoPolish(str))
