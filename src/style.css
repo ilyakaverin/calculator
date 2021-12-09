@@ -95,14 +95,19 @@ h1 {
     .calculator-container {
       padding: 0;
       margin: 0;
-
-      width:auto;
+      max-width:100%;
       
     }
     .calculator {
         height: 100vh;
-        min-width: 100%;
         border-radius: 0;
         margin: 0;
     }
+    .grid {
+        grid-gap:10px;
+    }
+    .expression {
+        padding: 20px
+    }
+    
   }
