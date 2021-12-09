@@ -15,7 +15,6 @@ h1 {
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.2);
     margin-top: 2%;
-    display: flex;
     padding: 20px;
 }
 
@@ -91,8 +90,19 @@ h1 {
 .grid button:hover {
     background:rgba(255, 255, 255, 0.1)
 }
-@media (max-width: 429px) {
-    main {
-      max-width: none;
+@media (max-width: 423px) {
+
+    .calculator-container {
+      padding: 0;
+      margin: 0;
+
+      width:auto;
+      
+    }
+    .calculator {
+        height: 100vh;
+        min-width: 100%;
+        border-radius: 0;
+        margin: 0;
     }
   }
