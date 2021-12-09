@@ -1,13 +1,25 @@
+export const ops = ['+', '-', '/', 'x'];
+
+const priority = {
+    "x": 1,
+    "/": 1,
+    "+": 0,
+    "-": 0,
+  };
+  const operators = {
+    "+": (x, y) => x + y,
+    "-": (x, y) => x - y,
+    "x": (x, y) => x * y,
+    "/": (x, y) => x / y,
+  };
+
+  
+
 const infixIntoPolish = (str) => {
-    const arr = str.split(" ");
+    const arr = str.split(/([\+\-\x\/\(\)])/);
     const opsStack = [];
     const peek = (a) => a[a.length - 1];
-    const priority = {
-      "*": 1,
-      "/": 1,
-      "+": 0,
-      "-": 0,
-    };
+    
     const result = arr.reduce((exitStack, sym) => {
       if (parseFloat(sym)) {
         exitStack.push(sym);
@@ -37,12 +49,7 @@ const infixIntoPolish = (str) => {
     return [...result, ...reversed];
   };
   
-  const operators = {
-    "+": (x, y) => x + y,
-    "-": (x, y) => x - y,
-    "*": (x, y) => x * y,
-    "/": (x, y) => x / y,
-  };
+  
   
   const calculate = (array) => {
     const stack = [];
