@@ -12,11 +12,41 @@ const priority = {
     "x": (x, y) => x * y,
     "/": (x, y) => x / y,
   };
+  
+  export const isValid = (s) => {
+    
+    const open = ['(','{','['];
+    const close = [')','}',']'];
+    const stack = [];
+    
+    for(let i = 0; i < s.length; i += 1) {
+        if(open.includes(s[i])) {
+            stack.push(s[i])
+        }
+        if(close.includes(s[i])) {
+            if(close.indexOf(s[i]) !== open.indexOf(stack[stack.length - 1])) {
+                return false
+            } else {
+              stack.pop()
+            }
+        }
+    }
+    return stack.length === 0
+  }
+
+  export const sqrt = (str) => {
+    const arr = str.split(/([\+\-\x\/\(\)])/);
+    return arr
+    .map((item, index) => 
+    index === arr.length - 1 ? parseFloat(Math.sqrt(item)).toFixed(2) : item)
+    .join('')
+}
 
   
 
 const infixIntoPolish = (str) => {
     const arr = str.split(/([\+\-\x\/\(\)])/);
+    console.log(arr)
     const opsStack = [];
     const peek = (a) => a[a.length - 1];
     
@@ -64,7 +94,7 @@ const infixIntoPolish = (str) => {
       }
     });
   
-    return stack.pop();
+    return stack.pop()
   };
 
   export default (str) => calculate(infixIntoPolish(str))

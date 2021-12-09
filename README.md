@@ -1,6 +1,6 @@
 # calculator
 
-after download repo type
+after download repo, type
 
 ```
 npm install

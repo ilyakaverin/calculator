@@ -1,54 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
 body {
     margin:0;
     padding: 0;
     background-color: rgb(254, 132, 134);
+    font-family: 'PT Sans', sans-serif;
+    
 }
 h1 {
     color: red;
 }
-.wrap {
-    max-width: 700px;
+.calculator-container{
+    max-width: 370px;
     margin: 0 auto;
-    border: 1px solid black;
-    margin-top: 20vh;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.2)
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 2%;
+    display: flex;
+    padding: 20px;
 }
 
 .calculator {
     display: flex;
     flex-direction: column;
-    background: rgb(40,82,142);
+    background: #4e54c8;  
+    background: linear-gradient(to right, #3d76c9, #4e54c8);
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 }
+.expression {
+    padding:25px;
+}
 .expression, .result {
-    padding:15px;
     height: 25px;
-    text-align: center;
-    border:1px solid black;
     color: #fff;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1em;
     letter-spacing: 1px;
+    text-align: right;
+    width:75%;
+    margin:auto;
+}
+
+.result {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.5em;
+    padding-bottom:15px;
 }
 .grid {
     display: grid;
     grid-template-columns:repeat(4, 1fr);
-    grid-gap: 20px;
-    padding: 15px;
+    grid-gap: 10px;
+    padding: 25px;
     margin: 0 auto;
 }
 .grid button {
     background: none;
     border-radius: 100%;
     border:none;
-    font-size: 2em;
+    font-size: 1.5em;
     color: #fff;
     padding:15px;
     outline: 0;
+    font-family: inherit;
     
     
 
+}
+.grid button:nth-child(20) {
+    background-color: #fff;
+    color: rgb(40,82,142);
 }
 .grid button:active {
     animation: press 0.2s 1 linear;
