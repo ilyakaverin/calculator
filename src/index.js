@@ -26,6 +26,7 @@ expression.addEventListener('click', (e) => {
 
   for (const [key, value] of point) {
     result.innerText = '';
+
     if (key === 'num' || key === 'braces') {
       display += value === '.' && display.length === 0 ? '0.' : value;
       render();
@@ -50,7 +51,7 @@ expression.addEventListener('click', (e) => {
     }
     const isCorrectLastSym = (key === 'operation' && !ops.includes(lastChar(display)));
     const isCorrectDots = (lastChar(display) !== '.' && display.length !== 0);
-    
+
     if ( isCorrectLastSym && isCorrectDots ) {
       display += value;
       render();
@@ -88,10 +89,6 @@ document.addEventListener('keypress', (e) => {
     display = output;
     render();
   }
-  if (e.key === ' ') {
-    clear();
-    render();
-  }
   if (e.key === '√' && !isNaN(lastChar(display))) {
     const a = sqrt(display);
     display = a;
@@ -103,3 +100,4 @@ document.addEventListener('keypress', (e) => {
     render();
   }
 });
+
