@@ -90,7 +90,7 @@ h1 {
 .grid button:hover {
     background:rgba(255, 255, 255, 0.1)
 }
-@media (max-width: 423px) {
+@media (max-width: 424px) {
 
     .calculator-container {
       padding: 0;
