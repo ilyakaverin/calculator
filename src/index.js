@@ -50,6 +50,10 @@ expression.addEventListener('click', (e) => {
       display += value;
       render();
     }
+    if(value === '-' && display.length === 0) {
+        display += value;
+        render()
+    }
     if (value === '=' && !ops.includes(lastChar(display))) {
       const output = display.length === 0 ? 'There is no input'
         : isValid(display) === false ? 'incorrect input'
