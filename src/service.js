@@ -1,7 +1,7 @@
 export const ops = ['+', '-', '/', 'x'];
 
 const priority = {
-  'x': 1,
+  x: 1,
   '/': 1,
   '+': 0,
   '-': 0,
@@ -10,7 +10,7 @@ const priority = {
 const operators = {
   '+': (x, y) => x + y,
   '-': (x, y) => x - y,
-  'x': (x, y) => x * y,
+  x: (x, y) => x * y,
   '/': (x, y) => x / y,
   '*': (x, y) => x * y,
 };
@@ -35,15 +35,15 @@ export const isValid = (s) => {
 };
 
 export const sqrt = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/); 
+  const arr = str.split(/([\+\-\x\/\(\)])/);
   return arr
     .map((item, index) => (index === arr.length - 1 ? isInt(Math.sqrt(item)) : item))
     .join('');
 };
 export const percent = (str) => {
   const arr = str.split(/([\+\-\x\/\(\)])/);
-  if(arr.length === 1) {
-      return arr[0] / 100
+  if (arr.length === 1) {
+    return arr[0] / 100;
   }
   for (let i = arr.length - 2; i >= 0; i -= 1) {
     if (!isNaN(arr[i])) {
@@ -60,7 +60,7 @@ const isInt = (str) => {
 };
 
 const infixIntoPolish = (str) => {
-  const arr = str.split(/([\+\-\x\*\/\(\)])/).map((i) => !isNaN(i) ? Number(i) : i) // regex to split string;
+  const arr = str.split(/([\+\-\x\*\/\(\)])/).map((i) => (!isNaN(i) ? Number(i) : i)); // regex to split string;
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 
@@ -84,7 +84,7 @@ const infixIntoPolish = (str) => {
       ) exitStack.push(opsStack.pop());
       opsStack.push(sym);
     }
-    
+
     return exitStack;
   }, []);
   const reversed = opsStack.reverse();

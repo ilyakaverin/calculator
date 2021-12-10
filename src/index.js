@@ -10,11 +10,11 @@ const screen = document.querySelector('.expression');
 const result = document.querySelector('.result');
 
 function render() {
-    screen.innerText = display;
-  }
+  screen.innerText = display;
+}
 function clear() {
-    display = '';
-    result.innerText = '';
+  display = '';
+  result.innerText = '';
 }
 
 render();
@@ -23,7 +23,7 @@ expression.addEventListener('click', (e) => {
   const point = Object.entries(e.target.dataset);
 
   for (const [key, value] of point) {
-      result.innerText = ''
+    result.innerText = '';
     if (key === 'num' || key === 'braces') {
       display += value === '.' && display.length === 0 ? '0.' : value;
       render();
@@ -33,7 +33,7 @@ expression.addEventListener('click', (e) => {
       render();
     }
     if (value === 'clear') {
-      clear()
+      clear();
       render();
     }
     if (value === 'sqrt' && !isNaN(lastChar(display))) {
@@ -63,36 +63,34 @@ expression.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keypress', (e) => {
+  const eventCodes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '/', '+', '-', '(', ')', 'x', '*'];
 
-    const eventCodes = ['1','2','3','4','5','6','7','8','9','0', '/', '+', '-', '(', ')', 'x','*'];
+  if (eventCodes.includes(e.key)) {
+    display += e.key;
+    render();
+  }
 
-    if(eventCodes.includes(e.key)) {
-        display += e.key;
-        render()
-    }
+  if (e.key === 'Enter' && !ops.includes(lastChar(display))) {
+    const output = display.length === 0 ? 'There is no input'
+      : isValid(display) === false ? 'incorrect input'
+        : calculation(display);
 
-    if (e.key === 'Enter' && !ops.includes(lastChar(display))) {
-        const output = display.length === 0 ? 'There is no input'
-          : isValid(display) === false ? 'incorrect input'
-            : calculation(display);
-  
-        result.innerText = output;
-        display = output;
-        render();
-      }
-      if (e.key === ' ') {
-        clear()
-        render();
-      }
-      if (e.key === '√' && !isNaN(lastChar(display))) {
-        const a = sqrt(display);
-        display = a;
-        render();
-      }
-      if(e.key === '%') {
-        const b = percent(display);
-        display = b;
-        render();
-
-      }
-})
+    result.innerText = output;
+    display = output;
+    render();
+  }
+  if (e.key === ' ') {
+    clear();
+    render();
+  }
+  if (e.key === '√' && !isNaN(lastChar(display))) {
+    const a = sqrt(display);
+    display = a;
+    render();
+  }
+  if (e.key === '%') {
+    const b = percent(display);
+    display = b;
+    render();
+  }
+});

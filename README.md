@@ -13,3 +13,13 @@ make start
 ```
 
 to run development server
+
+```
+make jest
+```
+to start unit-tests
+
+```
+make lint
+```
+to start eslint
