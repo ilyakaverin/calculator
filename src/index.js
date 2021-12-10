@@ -9,6 +9,8 @@ const expression = document.querySelector('.grid');
 const screen = document.querySelector('.expression');
 const result = document.querySelector('.result');
 
+
+
 function render() {
   screen.innerText = display;
 }
@@ -46,7 +48,10 @@ expression.addEventListener('click', (e) => {
       display = b;
       render();
     }
-    if ((key === 'operation' && !ops.includes(lastChar(display))) && (lastChar(display) !== '.' && display.length !== 0)) {
+    const isCorrectLastSym = (key === 'operation' && !ops.includes(lastChar(display)));
+    const isCorrectDots = (lastChar(display) !== '.' && display.length !== 0);
+    
+    if ( isCorrectLastSym && isCorrectDots ) {
       display += value;
       render();
     }
