@@ -4,10 +4,9 @@ body {
     padding: 0;
     background-color: rgb(254, 132, 134);
     font-family: 'PT Sans', sans-serif;
-    
-}
-h1 {
-    color: red;
+    -webkit-text-size-adjust: none;
+    zoom: 1;
+    touch-action: manipulation;
 }
 .calculator-container{
     max-width: 370px;
