@@ -60,9 +60,7 @@ const isInt = (str) => {
 };
 
 const infixIntoPolish = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/).map((i) => !isNaN(i) ? Number(i) : i) // regex to split string;
-
-   
+  const arr = str.split(/([\+\-\x\*\/\(\)])/).map((i) => !isNaN(i) ? Number(i) : i) // regex to split string;
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 

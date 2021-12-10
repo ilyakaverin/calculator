@@ -12,6 +12,10 @@ const result = document.querySelector('.result');
 function render() {
     screen.innerText = display;
   }
+function clear() {
+    display = '';
+    result.innerText = '';
+}
 
 render();
 
@@ -29,8 +33,7 @@ expression.addEventListener('click', (e) => {
       render();
     }
     if (value === 'clear') {
-      display = '';
-      result.innerText = '';
+      clear()
       render();
     }
     if (value === 'sqrt' && !isNaN(lastChar(display))) {
@@ -61,7 +64,7 @@ expression.addEventListener('click', (e) => {
 
 document.addEventListener('keypress', (e) => {
 
-    const eventCodes = ['1','2','3','4','5','6','7','8','9','0', '/', '+', '-', '(', ')', 'x',];
+    const eventCodes = ['1','2','3','4','5','6','7','8','9','0', '/', '+', '-', '(', ')', 'x','*'];
 
     if(eventCodes.includes(e.key)) {
         display += e.key;
@@ -78,8 +81,7 @@ document.addEventListener('keypress', (e) => {
         render();
       }
       if (e.key === ' ') {
-        display = '';
-        result.innerText = '';
+        clear()
         render();
       }
       if (e.key === '√' && !isNaN(lastChar(display))) {
