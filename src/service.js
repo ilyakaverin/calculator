@@ -35,7 +35,7 @@ export const isValid = (s) => {
 };
 
 export const sqrt = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/); // 
+  const arr = str.split(/([\+\-\x\/\(\)])/); 
   return arr
     .map((item, index) => (index === arr.length - 1 ? isInt(Math.sqrt(item)) : item))
     .join('');
@@ -90,8 +90,6 @@ const infixIntoPolish = (str) => {
     return exitStack;
   }, []);
   const reversed = opsStack.reverse();
-console.log(result)
-
   return [...result, ...reversed];
 };
 
