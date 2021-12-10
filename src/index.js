@@ -60,13 +60,8 @@ expression.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keypress', (e) => {
-    const point = Object.entries(e.target.dataset);
 
     const eventCodes = ['1','2','3','4','5','6','7','8','9','0', '/', '+', '-', '(', ')', 'x',];
-    const percentKey = 36;
-    const enter = 13;
-    const square = 8730;
-    const clear = 32;
 
     if(eventCodes.includes(e.key)) {
         display += e.key;
@@ -91,11 +86,11 @@ document.addEventListener('keypress', (e) => {
         const a = sqrt(display);
         display = a;
         render();
-        result.innerText = a
       }
+      if(e.key === '%') {
+        const b = percent(display);
+        display = b;
+        render();
 
-
-    console.log(e.key, 'dis',display)
-
-
+      }
 })

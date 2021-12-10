@@ -60,14 +60,14 @@ const isInt = (str) => {
 };
 
 const infixIntoPolish = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/); // regex to split string;
+  const arr = str.split(/([\+\-\x\/\(\)])/).map((i) => !isNaN(i) ? Number(i) : i) // regex to split string;
 
-  // console.log(arr)
+   
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 
   const result = arr.reduce((exitStack, sym) => {
-    if (parseFloat(sym)) {
+    if (parseFloat(sym) || sym === 0) {
       exitStack.push(sym);
     }
     if (sym === '(') {
@@ -86,10 +86,11 @@ const infixIntoPolish = (str) => {
       ) exitStack.push(opsStack.pop());
       opsStack.push(sym);
     }
-
+    
     return exitStack;
   }, []);
   const reversed = opsStack.reverse();
+console.log(result)
 
   return [...result, ...reversed];
 };
