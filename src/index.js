@@ -60,8 +60,8 @@ expression.addEventListener('click', (e) => {
     }
     if (value === '=' && !ops.includes(lastChar(display))) {
       const output = display.length === 0 ? 'There is no input'
-        : isValid(display) === false ? 'incorrect input'
-          : calculation(display);
+        : isValid(display) === true && display.length > 2 ? calculation(display) 
+          : 'incorrect input'
 
       result.innerText = output;
       display = output;
