@@ -84,7 +84,6 @@ export const isInt = (str) => {
 
 const infixIntoPolish = (str) => {
   const arr = parse(str);
-  console.log(arr)
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 
