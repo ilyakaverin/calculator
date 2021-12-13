@@ -16,22 +16,20 @@ const operators = {
 };
 const parse = (str) => {
   const result = str.split(/([\+\-\x\*\/\(\)])/)
-  .filter(i => i !== '') ;
+    .filter((i) => i !== '');
 
-  for(let i=0; i < result.length; i += 1) {
-    if(result[i] === '(' && result[i + 1] === '-') {
-     result[i + 1] =  result[i + 1].concat(result[i + 2]);
-     result[i + 2] = ''
+  for (let i = 0; i < result.length; i += 1) {
+    if (result[i] === '(' && result[i + 1] === '-') {
+      result[i + 1] = result[i + 1].concat(result[i + 2]);
+      result[i + 2] = '';
     }
-    if(result[i] === '-' && str.startsWith('-')) {
+    if (result[i] === '-' && str.startsWith('-')) {
       result[i] = result[i].concat(result[i + 1]);
-      result[i + 1] = ''
-
+      result[i + 1] = '';
     }
-    
   }
-  return result
-}
+  return result;
+};
 
 export const isValid = (s) => {
   const open = ['('];
@@ -55,11 +53,11 @@ export const isValid = (s) => {
 export const sqrt = (str) => {
   const arr = parse(str);
   const result = arr
-    .filter(i =>  i !== '')
+    .filter((i) => i !== '')
     .map((item, index) => (index === arr.length - 1 ? isInt(Math.sqrt(item)) : item))
     .join('');
 
-    return Number(result) < 1 ? 'cant sqrt negative' : result
+  return Number(result) < 1 ? 'cant sqrt negative' : result;
 };
 export const percent = (str) => {
   const arr = parse(str);
@@ -79,8 +77,6 @@ export const isInt = (str) => {
   const a = Number(str);
   return Number.isInteger(a) ? str : parseFloat(str).toFixed(2);
 };
-
-
 
 const infixIntoPolish = (str) => {
   const arr = parse(str);

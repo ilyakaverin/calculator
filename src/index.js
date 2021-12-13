@@ -9,8 +9,6 @@ const expression = document.querySelector('.grid');
 const screen = document.querySelector('.expression');
 const result = document.querySelector('.result');
 
-
-
 function render() {
   screen.innerText = display;
 }
@@ -52,13 +50,13 @@ expression.addEventListener('click', (e) => {
     const isCorrectLastSym = (key === 'operation' && !ops.includes(lastChar(display)));
     const isCorrectDots = (lastChar(display) !== '.' && display.length !== 0);
 
-    if ( isCorrectLastSym && isCorrectDots ) {
+    if (isCorrectLastSym && isCorrectDots) {
       display += value;
       render();
     }
-    if(value === '-' && display.length === 0) {
-        display += value;
-        render()
+    if (value === '-' && display.length === 0) {
+      display += value;
+      render();
     }
     if (value === '=' && !ops.includes(lastChar(display))) {
       const output = display.length === 0 ? 'There is no input'
@@ -100,4 +98,3 @@ document.addEventListener('keypress', (e) => {
     render();
   }
 });
-
