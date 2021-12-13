@@ -23,6 +23,11 @@ const parse = (str) => {
      result[i + 1] =  result[i + 1].concat(result[i + 2]);
      result[i + 2] = ''
     }
+    if(result[i] === '-' && str.startsWith('-')) {
+      result[i] = result[i].concat(result[i + 1]);
+      result[i + 1] = ''
+
+    }
     
   }
   return result
@@ -78,7 +83,8 @@ export const isInt = (str) => {
 
 
 const infixIntoPolish = (str) => {
-  const arr = parse(str) 
+  const arr = parse(str);
+  console.log(arr)
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 
