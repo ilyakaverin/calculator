@@ -14,10 +14,23 @@ const operators = {
   '/': (x, y) => x / y,
   '*': (x, y) => x * y,
 };
+const parse = (str) => {
+  const result = str.split(/([\+\-\x\*\/\(\)])/)
+  .filter(i => i !== '') ;
+
+  for(let i=0; i < result.length; i += 1) {
+    if(result[i] === '(' && result[i + 1] === '-') {
+     result[i + 1] =  result[i + 1].concat(result[i + 2]);
+     result[i + 2] = ''
+    }
+    
+  }
+  return result
+}
 
 export const isValid = (s) => {
-  const open = ['(', '{', '['];
-  const close = [')', '}', ']'];
+  const open = ['('];
+  const close = [')'];
   const stack = [];
 
   for (let i = 0; i < s.length; i += 1) {
@@ -35,13 +48,16 @@ export const isValid = (s) => {
 };
 
 export const sqrt = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/);
-  return arr
+  const arr = parse(str);
+  const result = arr
+    .filter(i =>  i !== '')
     .map((item, index) => (index === arr.length - 1 ? isInt(Math.sqrt(item)) : item))
     .join('');
+
+    return Number(result) < 1 ? 'cant sqrt negative' : result
 };
 export const percent = (str) => {
-  const arr = str.split(/([\+\-\x\/\(\)])/);
+  const arr = parse(str);
   if (arr.length === 1) {
     return arr[0] / 100;
   }
@@ -54,13 +70,15 @@ export const percent = (str) => {
   return arr.join('');
 };
 
-const isInt = (str) => {
+export const isInt = (str) => {
   const a = Number(str);
   return Number.isInteger(a) ? str : parseFloat(str).toFixed(2);
 };
 
+
+
 const infixIntoPolish = (str) => {
-  const arr = str.split(/([\+\-\x\*\/\(\)])/).map((i) => (!isNaN(i) ? Number(i) : i)); // regex to split string;  
+  const arr = parse(str) 
   const opsStack = [];
   const peek = (a) => a[a.length - 1];
 
