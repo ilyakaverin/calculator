@@ -12,7 +12,7 @@ exports.__esModule = true;
 exports.percent = exports.sqrt = exports.isValid = exports.backSpace = exports.last = exports.isInt = exports.ops = void 0;
 exports.ops = ['+', '-', '/', 'x'];
 var priority = {
-    'x': 1,
+    x: 1,
     '/': 1,
     '+': 0,
     '-': 0,
@@ -21,11 +21,13 @@ var priority = {
 var operators = {
     '+': function (x, y) { return x + y; },
     '-': function (x, y) { return x - y; },
-    'x': function (x, y) { return x * y; },
+    x: function (x, y) { return x * y; },
     '/': function (x, y) { return x / y; },
     '*': function (x, y) { return x * y; }
 };
-var isInt = function (number) { return Number.isInteger(number) ? number : number.toFixed(2); };
+var isInt = function (number) {
+    return Number.isInteger(number) ? number : number.toFixed(2);
+};
 exports.isInt = isInt;
 var last = function (string) { return string[string.length - 1]; };
 exports.last = last;
@@ -42,8 +44,9 @@ var parse = function (str) {
             removeSpaces[i + 1] = '';
         }
     }
-    var result = removeSpaces.map(function (i) { return parseFloat(i) || i === '0' ? Number(i) : i; }).filter(function (i) { return i !== ''; });
-    console.log('parsed', result);
+    var result = removeSpaces
+        .map(function (i) { return (parseFloat(i) || i === '0' ? Number(i) : i); })
+        .filter(function (i) { return i !== ''; });
     return result;
 };
 var backSpace = function (string) { return string.slice(0, string.length - 1); };
@@ -57,7 +60,8 @@ var isValid = function (string) {
             stack.push(string[i]);
         }
         if (close.includes(string[i])) {
-            if (close.indexOf(string[i]) !== open.indexOf(stack[stack.length - 1])) {
+            if (close.indexOf(string[i]) !==
+                open.indexOf(stack[stack.length - 1])) {
                 return false;
             }
             stack.pop();
@@ -69,7 +73,13 @@ exports.isValid = isValid;
 var sqrt = function (string) {
     var array = parse(string);
     var result = array
-        .map(function (item, index) { return index === array.length - 1 ? item < 0 ? 'cant sqrt negative' : Math.sqrt(item) : item; })
+        .map(function (item, index) {
+        return index === array.length - 1
+            ? item < 0
+                ? 'cant sqrt negative'
+                : Math.sqrt(item)
+            : item;
+    })
         .join('');
     return result;
 };
@@ -104,8 +114,8 @@ var infixIntoPolish = function (str) {
             opsStack.pop();
         }
         if (sym in priority) {
-            while ((0, exports.last)(opsStack) in priority
-                && priority[sym] <= priority[(0, exports.last)(opsStack)])
+            while ((0, exports.last)(opsStack) in priority &&
+                priority[sym] <= priority[(0, exports.last)(opsStack)])
                 exitStack.push(opsStack.pop());
             opsStack.push(sym);
         }
@@ -117,7 +127,6 @@ var infixIntoPolish = function (str) {
 };
 var calculate = function (array) {
     var stack = [];
-    console.log('calcArr', array);
     array.forEach(function (sym) {
         if (sym in operators) {
             var _a = [stack.pop(), stack.pop()], y = _a[0], x = _a[1];

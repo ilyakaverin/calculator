@@ -12,76 +12,92 @@ const App = () => {
         divToFocus.current.focus();
      },[])
 
-    const handleClick = (e) => {
+     const handleClick = (e) => {
         const point = Object.entries(e.target.dataset);
-
+      
         for (const [key, value] of point) {
-
-            if (key === 'num' || key === 'braces') {
-              setExpression(prevState => prevState += value === '.' && expression.length === 0 ? '0.' : value )
-             
-            }
-            if (key === 'zero' && expression.length !== 0) {
-              setExpression(prevState => prevState += value)
-            }
-            if (value === 'clear') {
-              setExpression('');
-              setResult('');
-            }
-            if (value === 'sqrt' && !isNaN(last(expression))) {
-              const result = sqrt(expression);
-              setExpression(result)
-            }
-            if (value === 'percent' && !isNaN(last(expression))) {
-              const result = percent(expression);
-              setExpression(result)
-            }
-            const isCorrectLastSym = (key === 'operation' && !ops.includes(last(expression)));
-            const isCorrectDots = (last(expression) !== '.' && expression.length !== 0);
-        
-            if (isCorrectLastSym && isCorrectDots) {
-              setExpression(prevState => prevState += value)
-            }
-            if (value === '-' && expression.length === 0) {
-              setExpression(prevState => prevState += value)
-            }
-            if (value === '=' && !ops.includes(last(expression))) {
-              const output = calculation(expression);
-        
-              setResult(output)
-              setExpression(output)
-            }
+          if (key === "num" || key === "braces") {
+            setExpression(
+              (prevState) =>
+                (prevState += value === "." && expression.length === 0 ? "0." : value)
+            );
           }
-        
-       
-    }
-    const  onKeyPressed = (e) => {
-
-        console.log(e.key)
-        const eventCodes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '/', '+', '-', '(', ')', 'x', '*'];
-
-  if (eventCodes.includes(e.key)) {
-    setExpression(prevState => prevState += e.key)
-  }
-  if(e.key === 'Backspace' && expression.length !== 0) {
-      setExpression(prevState => backSpace(prevState))
-  }
-  
-  if (e.key === 'Enter' && !ops.includes(last(expression))) {
-    const output = calculation(expression)
-
-        setResult(output)
-        setExpression(output)
-  }
-  if (e.key === '√' && !isNaN(last(expression))) {
-    const result = sqrt(expression);
-    setExpression(result);
-  }
-  if (e.key === '%') {
-    const result = percent(expression);
-    setExpression(result)
-  }
-      }
+          if (key === "zero" && expression.length !== 0) {
+            setExpression((prevState) => (prevState += value));
+          }
+          if (value === "clear") {
+            setExpression("");
+            setResult("");
+          }
+          if (value === "sqrt" && !isNaN(last(expression))) {
+            const result = sqrt(expression);
+            setExpression(result);
+          }
+          if (value === "percent" && !isNaN(last(expression))) {
+            const result = percent(expression);
+            setExpression(result);
+          }
+          const isCorrectLastSym = key === "operation" && !ops.includes(last(expression));
+          const isCorrectDots = last(expression) !== "." && expression.length !== 0;
+      
+          if (isCorrectLastSym && isCorrectDots) {
+            setExpression((prevState) => (prevState += value));
+          }
+          if (value === "-" && expression.length === 0) {
+            setExpression((prevState) => (prevState += value));
+          }
+          if (value === "=" && !ops.includes(last(expression))) {
+            const output = calculation(expression);
+      
+            setResult(output);
+            setExpression(output);
+          }
+        }
+      };
+      
+    const onKeyPressed = (e) => {
+        const eventCodes = [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "0",
+          "/",
+          "+",
+          "-",
+          "(",
+          ")",
+          "x",
+          "*",
+        ];
+      
+        if (eventCodes.includes(e.key)) {
+          setExpression((prevState) => (prevState += e.key));
+        }
+        if (e.key === "Backspace" && expression.length !== 0) {
+          setExpression((prevState) => backSpace(prevState));
+        }
+      
+        if (e.key === "Enter" && !ops.includes(last(expression))) {
+          const output = calculation(expression);
+      
+          setResult(output);
+          setExpression(output);
+        }
+        if (e.key === "√" && !isNaN(last(expression))) {
+          const result = sqrt(expression);
+          setExpression(result);
+        }
+        if (e.key === "%") {
+          const result = percent(expression);
+          setExpression(result);
+        }
+      };
 
     return (
         <div onKeyDown={onKeyPressed} ref={divToFocus} tabIndex={0} className="calculator-container">
