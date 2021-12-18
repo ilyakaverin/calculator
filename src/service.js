@@ -1,129 +1,139 @@
-export const ops = ['+', '-', '/', 'x'];
-
-const priority = {
-  x: 1,
-  '/': 1,
-  '+': 0,
-  '-': 0,
-  '*': 1,
+"use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
-const operators = {
-  '+': (x, y) => x + y,
-  '-': (x, y) => x - y,
-  x: (x, y) => x * y,
-  '/': (x, y) => x / y,
-  '*': (x, y) => x * y,
+exports.__esModule = true;
+exports.percent = exports.sqrt = exports.isValid = exports.backSpace = exports.last = exports.isInt = exports.ops = void 0;
+exports.ops = ['+', '-', '/', 'x'];
+var priority = {
+    'x': 1,
+    '/': 1,
+    '+': 0,
+    '-': 0,
+    '*': 1
 };
-const parse = (str) => {
-  const result = str.split(/([\+\-\x\*\/\(\)])/)
-    .filter((i) => i !== '');
-
-  for (let i = 0; i < result.length; i += 1) {
-    if (result[i] === '(' && result[i + 1] === '-') {
-      result[i + 1] = result[i + 1].concat(result[i + 2]);
-      result[i + 2] = '';
-    }
-    if (result[i] === '-' && str.startsWith('-')) {
-      result[i] = result[i].concat(result[i + 1]);
-      result[i + 1] = '';
-    }
-  }
-  return result;
+var operators = {
+    '+': function (x, y) { return x + y; },
+    '-': function (x, y) { return x - y; },
+    'x': function (x, y) { return x * y; },
+    '/': function (x, y) { return x / y; },
+    '*': function (x, y) { return x * y; }
 };
-
-export const isValid = (s) => {
-  const open = ['('];
-  const close = [')'];
-  const stack = [];
-
-  for (let i = 0; i < s.length; i += 1) {
-    if (open.includes(s[i])) {
-      stack.push(s[i]);
+var isInt = function (number) { return Number.isInteger(number) ? number : number.toFixed(2); };
+exports.isInt = isInt;
+var last = function (string) { return string[string.length - 1]; };
+exports.last = last;
+var parse = function (str) {
+    var SeparateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
+    var removeSpaces = SeparateOpsAndNums.filter(function (i) { return i !== ''; });
+    for (var i = 0; i < removeSpaces.length; i += 1) {
+        if (removeSpaces[i] === '(' && removeSpaces[i + 1] === '-') {
+            removeSpaces[i + 1] = removeSpaces[i + 1].concat(removeSpaces[i + 2]);
+            removeSpaces[i + 2] = '';
+        }
+        if (removeSpaces[i] === '-' && str.startsWith('-')) {
+            removeSpaces[i] = removeSpaces[i].concat(removeSpaces[i + 1]);
+            removeSpaces[i + 1] = '';
+        }
     }
-    if (close.includes(s[i])) {
-      if (close.indexOf(s[i]) !== open.indexOf(stack[stack.length - 1])) {
-        return false;
-      }
-      stack.pop();
-    }
-  }
-  return stack.length === 0;
+    var result = removeSpaces.map(function (i) { return parseFloat(i) || i === '0' ? Number(i) : i; }).filter(function (i) { return i !== ''; });
+    console.log('parsed', result);
+    return result;
 };
-
-export const sqrt = (str) => {
-  const arr = parse(str);
-  const result = arr
-    .filter((i) => i !== '')
-    .map((item, index) => (index === arr.length - 1 ? isInt(Math.sqrt(item)) : item))
-    .join('');
-
-  return Number(result) < 1 ? 'cant sqrt negative' : result;
+var backSpace = function (string) { return string.slice(0, string.length - 1); };
+exports.backSpace = backSpace;
+var isValid = function (string) {
+    var open = ['('];
+    var close = [')'];
+    var stack = [];
+    for (var i = 0; i < string.length; i += 1) {
+        if (open.includes(string[i])) {
+            stack.push(string[i]);
+        }
+        if (close.includes(string[i])) {
+            if (close.indexOf(string[i]) !== open.indexOf(stack[stack.length - 1])) {
+                return false;
+            }
+            stack.pop();
+        }
+    }
+    return stack.length === 0;
 };
-export const percent = (str) => {
-  const arr = parse(str);
-  if (arr.length === 1) {
-    return arr[0] / 100;
-  }
-  for (let i = arr.length - 2; i >= 0; i -= 1) {
-    if (!isNaN(arr[i])) {
-      arr[arr.length - 1] = (arr[i] * arr[arr.length - 1]) / 100;
-      break;
-    }
-  }
-  return arr.join('');
+exports.isValid = isValid;
+var sqrt = function (string) {
+    var array = parse(string);
+    var result = array
+        .map(function (item, index) { return index === array.length - 1 ? item < 0 ? 'cant sqrt negative' : Math.sqrt(item) : item; })
+        .join('');
+    return result;
 };
-
-export const isInt = (str) => {
-  const a = Number(str);
-  return Number.isInteger(a) ? str : parseFloat(str).toFixed(2);
+exports.sqrt = sqrt;
+var percent = function (str) {
+    var array = parse(str);
+    if (array.length === 1 && array[0] > 0) {
+        return array[0] / 100;
+    }
+    for (var i = array.length - 2; i >= 0; i -= 1) {
+        if (!isNaN(array[i])) {
+            array[array.length - 1] = (array[i] * array[array.length - 1]) / 100;
+            break;
+        }
+    }
+    return array.join('');
 };
-
-const infixIntoPolish = (str) => {
-  const arr = parse(str);
-  const opsStack = [];
-  const peek = (a) => a[a.length - 1];
-
-  const result = arr.reduce((exitStack, sym) => {
-    if (parseFloat(sym) || sym === 0) {
-      exitStack.push(sym);
-    }
-    if (sym === '(') {
-      opsStack.push(sym);
-    }
-
-    if (sym === ')') {
-      while (peek(opsStack) !== '(') exitStack.push(opsStack.pop());
-      opsStack.pop();
-    }
-
-    if (sym in priority) {
-      while (
-        peek(opsStack) in priority
-          && priority[sym] <= priority[peek(opsStack)]
-      ) exitStack.push(opsStack.pop());
-      opsStack.push(sym);
-    }
-
-    return exitStack;
-  }, []);
-  const reversed = opsStack.reverse();
-  return [...result, ...reversed];
+exports.percent = percent;
+var infixIntoPolish = function (str) {
+    var array = parse(str);
+    var opsStack = [];
+    var result = array.reduce(function (exitStack, sym) {
+        if (typeof sym === 'number') {
+            exitStack.push(sym);
+        }
+        if (sym === '(') {
+            opsStack.push(sym);
+        }
+        if (sym === ')') {
+            while ((0, exports.last)(opsStack) !== '(')
+                exitStack.push(opsStack.pop());
+            opsStack.pop();
+        }
+        if (sym in priority) {
+            while ((0, exports.last)(opsStack) in priority
+                && priority[sym] <= priority[(0, exports.last)(opsStack)])
+                exitStack.push(opsStack.pop());
+            opsStack.push(sym);
+        }
+        return exitStack;
+    }, []);
+    var reversed = opsStack.reverse();
+    var output = __spreadArray(__spreadArray([], result, true), reversed, true);
+    return output;
 };
-
-const calculate = (array) => {
-  const stack = [];
-
-  array.forEach((sym) => {
-    if (sym in operators) {
-      const [y, x] = [stack.pop(), stack.pop()];
-
-      stack.push(operators[sym](x, y));
-    } else {
-      stack.push(parseFloat(sym));
-    }
-  });
-
-  return isInt(stack.pop());
+var calculate = function (array) {
+    var stack = [];
+    console.log('calcArr', array);
+    array.forEach(function (sym) {
+        if (sym in operators) {
+            var _a = [stack.pop(), stack.pop()], y = _a[0], x = _a[1];
+            stack.push(operators[sym](x, y));
+        }
+        else {
+            stack.push(sym);
+        }
+    });
+    return stack.pop();
 };
-
-export default (str) => calculate(infixIntoPolish(str));
+exports["default"] = (function (string) {
+    if (!(0, exports.isValid)(string) || string.length === 0) {
+        return 'incorrect input';
+    }
+    var setValidString = infixIntoPolish(string);
+    var result = (0, exports.isInt)(calculate(setValidString));
+    return result.toString();
+});
