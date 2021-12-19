@@ -19,9 +19,9 @@ export const isInt = (number: number) => (Number.isInteger(number) ? number : nu
 
 export const last = (string: string) => string[string.length - 1];
 
-const parse = (str: string) => {
-  const SeparateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
-  const removedSpaces = SeparateOpsAndNums.filter((i) => i !== '');
+export const parse = (str: string) => {
+  const separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
+  const removedSpaces = separateOpsAndNums.filter((i) => i !== '');
 
   for (let i = 0; i < removedSpaces.length; i += 1) {
     if (removedSpaces[i] === '(' && removedSpaces[i + 1] === '-') {
@@ -119,8 +119,8 @@ const infixIntoPolish = (str: string) => {
     return exitStack;
   }, []);
   const reversed = opsStack.reverse();
-  const output = [...result, ...reversed];
-  return output;
+  
+  return [...result, ...reversed];
 };
 
 const calculate = (array: (string | number)[]) => {

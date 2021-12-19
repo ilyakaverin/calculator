@@ -9,7 +9,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-exports.percent = exports.sqrt = exports.isValid = exports.backSpace = exports.last = exports.isInt = exports.ops = void 0;
+exports.percent = exports.sqrt = exports.isValid = exports.backSpace = exports.parse = exports.last = exports.isInt = exports.ops = void 0;
 exports.ops = ['+', '-', '/', 'x'];
 var priority = {
     x: 1,
@@ -25,15 +25,13 @@ var operators = {
     '/': function (x, y) { return x / y; },
     '*': function (x, y) { return x * y; }
 };
-var isInt = function (number) {
-    return Number.isInteger(number) ? number : number.toFixed(2);
-};
+var isInt = function (number) { return (Number.isInteger(number) ? number : number.toFixed(2)); };
 exports.isInt = isInt;
 var last = function (string) { return string[string.length - 1]; };
 exports.last = last;
 var parse = function (str) {
-    var SeparateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
-    var removedSpaces = SeparateOpsAndNums.filter(function (i) { return i !== ''; });
+    var separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
+    var removedSpaces = separateOpsAndNums.filter(function (i) { return i !== ''; });
     for (var i = 0; i < removedSpaces.length; i += 1) {
         if (removedSpaces[i] === '(' && removedSpaces[i + 1] === '-') {
             removedSpaces[i + 1] = removedSpaces[i + 1].concat(removedSpaces[i + 2]);
@@ -49,6 +47,7 @@ var parse = function (str) {
         .filter(function (i) { return i !== ''; });
     return result;
 };
+exports.parse = parse;
 var backSpace = function (string) { return string.slice(0, string.length - 1); };
 exports.backSpace = backSpace;
 var isValid = function (string) {
@@ -60,8 +59,8 @@ var isValid = function (string) {
             stack.push(string[i]);
         }
         if (close.includes(string[i])) {
-            if (close.indexOf(string[i]) !==
-                open.indexOf(stack[stack.length - 1])) {
+            if (close.indexOf(string[i])
+                !== open.indexOf(stack[stack.length - 1])) {
                 return false;
             }
             stack.pop();
@@ -71,21 +70,19 @@ var isValid = function (string) {
 };
 exports.isValid = isValid;
 var sqrt = function (string) {
-    var array = parse(string);
+    var array = (0, exports.parse)(string);
     var result = array
-        .map(function (item, index) {
-        return index === array.length - 1
-            ? item < 0
-                ? 'cant sqrt negative'
-                : (0, exports.isInt)(Math.sqrt(item))
-            : item;
-    })
+        .map(function (item, index) { return (index === array.length - 1
+        ? item < 0
+            ? 'cant sqrt negative'
+            : (0, exports.isInt)(Math.sqrt(item))
+        : item); })
         .join('');
     return result;
 };
 exports.sqrt = sqrt;
 var percent = function (str) {
-    var array = parse(str);
+    var array = (0, exports.parse)(str);
     if (array.length === 1 && array[0] > 0) {
         return array[0] / 100;
     }
@@ -99,7 +96,7 @@ var percent = function (str) {
 };
 exports.percent = percent;
 var infixIntoPolish = function (str) {
-    var array = parse(str);
+    var array = (0, exports.parse)(str);
     var opsStack = [];
     var result = array.reduce(function (exitStack, sym) {
         if (typeof sym === 'number') {
@@ -114,16 +111,15 @@ var infixIntoPolish = function (str) {
             opsStack.pop();
         }
         if (sym in priority) {
-            while ((0, exports.last)(opsStack) in priority &&
-                priority[sym] <= priority[(0, exports.last)(opsStack)])
+            while ((0, exports.last)(opsStack) in priority
+                && priority[sym] <= priority[(0, exports.last)(opsStack)])
                 exitStack.push(opsStack.pop());
             opsStack.push(sym);
         }
         return exitStack;
     }, []);
     var reversed = opsStack.reverse();
-    var output = __spreadArray(__spreadArray([], result, true), reversed, true);
-    return output;
+    return __spreadArray(__spreadArray([], result, true), reversed, true);
 };
 var calculate = function (array) {
     var stack = [];
