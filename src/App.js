@@ -8,7 +8,7 @@ const App = () => {
     const [result, setResult] = useState('');
     const divToFocus = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         divToFocus.current.focus();
      },[])
 

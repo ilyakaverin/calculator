@@ -33,18 +33,18 @@ var last = function (string) { return string[string.length - 1]; };
 exports.last = last;
 var parse = function (str) {
     var SeparateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
-    var removeSpaces = SeparateOpsAndNums.filter(function (i) { return i !== ''; });
-    for (var i = 0; i < removeSpaces.length; i += 1) {
-        if (removeSpaces[i] === '(' && removeSpaces[i + 1] === '-') {
-            removeSpaces[i + 1] = removeSpaces[i + 1].concat(removeSpaces[i + 2]);
-            removeSpaces[i + 2] = '';
+    var removedSpaces = SeparateOpsAndNums.filter(function (i) { return i !== ''; });
+    for (var i = 0; i < removedSpaces.length; i += 1) {
+        if (removedSpaces[i] === '(' && removedSpaces[i + 1] === '-') {
+            removedSpaces[i + 1] = removedSpaces[i + 1].concat(removedSpaces[i + 2]);
+            removedSpaces[i + 2] = '';
         }
-        if (removeSpaces[i] === '-' && str.startsWith('-')) {
-            removeSpaces[i] = removeSpaces[i].concat(removeSpaces[i + 1]);
-            removeSpaces[i + 1] = '';
+        if (removedSpaces[i] === '-' && removedSpaces.indexOf(removedSpaces[i]) === 0) {
+            removedSpaces[i] = removedSpaces[i].concat(removedSpaces[i + 1]);
+            removedSpaces[i + 1] = '';
         }
     }
-    var result = removeSpaces
+    var result = removedSpaces
         .map(function (i) { return (parseFloat(i) || i === '0' ? Number(i) : i); })
         .filter(function (i) { return i !== ''; });
     return result;
@@ -77,7 +77,7 @@ var sqrt = function (string) {
         return index === array.length - 1
             ? item < 0
                 ? 'cant sqrt negative'
-                : Math.sqrt(item)
+                : (0, exports.isInt)(Math.sqrt(item))
             : item;
     })
         .join('');
