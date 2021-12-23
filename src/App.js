@@ -50,7 +50,7 @@ const App = () => {
             const output = calculation(expression);
       
             setResult(output);
-            setExpression(output);
+           
           }
         }
       };
@@ -87,7 +87,6 @@ const App = () => {
           const output = calculation(expression);
       
           setResult(output);
-          setExpression(output);
         }
         if (e.key === "√" && !isNaN(last(expression))) {
           const result = sqrt(expression);
