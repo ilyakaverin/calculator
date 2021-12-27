@@ -57,7 +57,6 @@ export const isValidInput = (input: string, expression: string) => {
   const isCorrectMinus = inputType === 'minus' && (inputDictionary[lastSym] !== 'num' && expression.length !== 0) && (inputDictionary[lastSym] !== 'open' && inputDictionary[lastSym] !== 'zero');
   const isCorrectOpenBrace = inputType === 'open' && inputDictionary[lastSym] === 'num';
 
-
   if (isCorrectNums) return false;
   if (isCorrectLastSym) return false;
   if (isCorrectDots) return false;
