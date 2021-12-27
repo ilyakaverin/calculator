@@ -49,11 +49,11 @@ var isValidInput = function (input, expression) {
     var lastSym = expression[expression.length - 1];
     var isCorrectLastSym = inputType === 'operation' && (inputDictionary[lastSym] !== 'num' && inputDictionary[lastSym] !== 'zero');
     var isCorrectDots = (inputType === 'dot' && inputDictionary[lastSym] !== 'num') && inputDictionary[lastSym] !== 'zero';
-    var isCorrectZero = inputType === 'zero' && (expression.length === 0 || inputDictionary[lastSym] === 'close');
+    var isCorrectZero = inputType === 'zero' && inputDictionary[lastSym] === 'close';
     var isCorrectNums = inputType === 'num' && inputDictionary[lastSym] === 'close';
     var action = inputType === 'action';
     var isCorrectMinus = inputType === 'minus' && (inputDictionary[lastSym] !== 'num' && expression.length !== 0) && (inputDictionary[lastSym] !== 'open' && inputDictionary[lastSym] !== 'zero');
-    var isCorrectBraces = inputType === 'open' && inputDictionary[lastSym] === 'num';
+    var isCorrectOpenBrace = inputType === 'open' && inputDictionary[lastSym] === 'num';
     if (isCorrectNums)
         return false;
     if (isCorrectLastSym)
@@ -66,7 +66,7 @@ var isValidInput = function (input, expression) {
         return false;
     if (isCorrectMinus)
         return false;
-    if (isCorrectBraces)
+    if (isCorrectOpenBrace)
         return false;
     return input in inputDictionary;
 };

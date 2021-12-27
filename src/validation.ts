@@ -51,7 +51,7 @@ export const isValidInput = (input: string, expression: string) => {
 
   const isCorrectLastSym = inputType === 'operation' && (inputDictionary[lastSym] !== 'num' && inputDictionary[lastSym] !== 'zero');
   const isCorrectDots = (inputType === 'dot' && inputDictionary[lastSym] !== 'num') && inputDictionary[lastSym] !== 'zero';
-  const isCorrectZero = inputType === 'zero' && (expression.length === 0 || inputDictionary[lastSym] === 'close');
+  const isCorrectZero = inputType === 'zero' &&  inputDictionary[lastSym] === 'close';
   const isCorrectNums = inputType === 'num' && inputDictionary[lastSym] === 'close';
   const action = inputType === 'action';
   const isCorrectMinus = inputType === 'minus' && (inputDictionary[lastSym] !== 'num' && expression.length !== 0) && (inputDictionary[lastSym] !== 'open' && inputDictionary[lastSym] !== 'zero');
