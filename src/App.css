@@ -69,7 +69,7 @@
       
     }
     .calculator {
-        height: 100vh;
+        min-height: 100vh;
         border-radius: 0;
         margin: 0;
     }
