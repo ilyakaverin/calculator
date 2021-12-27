@@ -34,6 +34,7 @@
 @media (max-width: 424px) {
     .grid {
        grid-row-gap: 1vh;
+       grid-column-gap: 3.5vh;
     }
     .grid button {
         font-size: 1.5em;
