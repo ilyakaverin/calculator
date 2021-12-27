@@ -1,5 +1,6 @@
 const calculation = require('../src/service.js').default
-const {percent, sqrt, parse} = require('../src/service.js')
+const {percent, sqrt, parse} = require('../src/service.js');
+const { isValidInput, isValidParentheses } = require('../src/validation.js')
 
 test('parse string', () => {
     expect(parse('50-5')).toEqual([50, '-', 5]);
@@ -7,27 +8,30 @@ test('parse string', () => {
     expect(parse('(50+(-25))*8/(9+(-3))')).toEqual(['(', 50, '+', '(', -25, ')', ')', '*', 8, '/', '(', 9, '+', '(', -3, ')', ')']);
 })
 
+const calcCases = [
+['2+2', '4'],
+['20+2', '22'],
+['100-10', '90'],
+['100/10', '10'],
+['100x10', '1000'],
+['0.2+0.4', '0.60'],
+['2+(-22)', '-20'],
+['100/(-2)', '-50'],
+['-25+25', '0'],
+['((', 'incorrect input' ],
+['-2+(-6.5)', '-8.50' ],
+['-2+25', '23'],
+['-2-2', '-4'],
+['', 'incorrect input' ],
+['(50+(-25))*8/(9+(-3))', '33.33'],
+['2+2-(-)', 'incorrect input'],
+['-2.2.2', 'incorrect input']
+]
 
-test('calculation', () => {
-    
-    expect(calculation('2+2')).toEqual('4');
-    expect(calculation('20+2')).toEqual('22');
-    expect(calculation('100-10')).toEqual('90');
-    expect(calculation('100/10')).toEqual('10');
-    expect(calculation('100x10')).toEqual('1000');
-    expect(calculation('0.2+0.4')).toEqual('0.60');
-    expect(calculation('2+(-22)')).toEqual('-20');
-    expect(calculation('100/(-2)')).toEqual('-50');
-    expect(calculation('-25+25')).toEqual('0');
-    expect(calculation('((')).toEqual('incorrect input');
-    expect(calculation('-2+(-6.5)')).toEqual('-8.50');
-    expect(calculation('-2+25')).toEqual('23');
-    expect(calculation('-2-2')).toEqual('-4');
-    expect(calculation('')).toEqual('incorrect input');
-    expect(calculation('(50+(-25))*8/(9+(-3))')).toEqual('33.33');
+test.each(calcCases)('calculation', (a, expected) => {
+    expect(calculation(a)).toBe(expected)
+  });
 
-
-})
 test('percentage', () => {
     expect(percent('50-5')).toEqual('50-2.5');
     expect(percent('50-5')).toEqual('50-2.5');
@@ -38,3 +42,26 @@ test('sqrt', () => {
     expect(sqrt('50')).toEqual('7.07');
     expect(sqrt('10-9')).toEqual('10-3');
 })
+
+const opsCases =[ '2+', '2+()', '2.', '-', '+', '.', '/', 'x', '*'];
+
+test.each(opsCases)('isValidInput', (a) => {
+    expect(isValidInput('-', a)).toBeFalsy();
+    expect(isValidInput('.', a)).toBeFalsy();
+  });
+
+test('isValidZero', () => {
+    expect(isValidInput('0', '')).toBeFalsy();
+    expect(isValidInput('0', ')')).toBeFalsy();
+})
+test('isValidNums', () => {
+    expect(isValidInput('1', ')')).toBeFalsy();
+})
+
+
+const inValidParentheses = ['(', '())', '(()', ')', '()(', '())'];
+
+test.each(inValidParentheses)('isValidParentheses', (a) => {
+    expect(isValidParentheses(a)).toBeFalsy();
+
+  });
