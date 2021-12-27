@@ -31,8 +31,23 @@
 
 @media (max-width: 424px) {
     .grid {
-        grid-row-gap:10px;
-        grid-column-gap:10px;
+        height: 100vh;
+    }
+    .grid button {
+        font-size: 1.5em;
+    }
+  }
+@media (max-height: 569px) {
+    .grid {
+        grid-gap:0
+    }
+    .grid button {
+        font-size: 1.5em;
+    }
+  }
+@media (max-width: 280px) {
+    .grid {
+        grid-gap:0
     }
     .grid button {
         font-size: 1.5em;
