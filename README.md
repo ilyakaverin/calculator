@@ -9,17 +9,17 @@ npm install
 then
 
 ```
-make start
+npm start
 ```
 
 to run development server
 
 ```
-make jest
+npm run test
 ```
 to start unit-tests
 
 ```
-make lint
+npm run lint
 ```
 to start eslint
