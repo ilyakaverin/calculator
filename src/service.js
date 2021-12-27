@@ -9,10 +9,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-exports.percent = exports.sqrt = exports.isValid = exports.backSpace = exports.parse = exports.last = exports.isInt = exports.ops = void 0;
-exports.ops = ['+', '-', '/', 'x'];
+exports.percent = exports.sqrt = exports.parse = exports.backSpace = exports.last = exports.isInt = void 0;
+var validation_1 = require("./validation");
 var priority = {
-    x: 1,
+    'x': 1,
     '/': 1,
     '+': 0,
     '-': 0,
@@ -21,7 +21,7 @@ var priority = {
 var operators = {
     '+': function (x, y) { return x + y; },
     '-': function (x, y) { return x - y; },
-    x: function (x, y) { return x * y; },
+    'x': function (x, y) { return x * y; },
     '/': function (x, y) { return x / y; },
     '*': function (x, y) { return x * y; }
 };
@@ -29,6 +29,8 @@ var isInt = function (number) { return (Number.isInteger(number) ? number : numb
 exports.isInt = isInt;
 var last = function (string) { return string[string.length - 1]; };
 exports.last = last;
+var backSpace = function (string) { return string.slice(0, string.length - 1); };
+exports.backSpace = backSpace;
 var parse = function (str) {
     var separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
     var removedSpaces = separateOpsAndNums.filter(function (i) { return i !== ''; });
@@ -48,27 +50,6 @@ var parse = function (str) {
     return result;
 };
 exports.parse = parse;
-var backSpace = function (string) { return string.slice(0, string.length - 1); };
-exports.backSpace = backSpace;
-var isValid = function (string) {
-    var open = ['('];
-    var close = [')'];
-    var stack = [];
-    for (var i = 0; i < string.length; i += 1) {
-        if (open.includes(string[i])) {
-            stack.push(string[i]);
-        }
-        if (close.includes(string[i])) {
-            if (close.indexOf(string[i])
-                !== open.indexOf(stack[stack.length - 1])) {
-                return false;
-            }
-            stack.pop();
-        }
-    }
-    return stack.length === 0;
-};
-exports.isValid = isValid;
 var sqrt = function (string) {
     var array = (0, exports.parse)(string);
     var result = array
@@ -135,10 +116,10 @@ var calculate = function (array) {
     return stack.pop();
 };
 exports["default"] = (function (string) {
-    if (!(0, exports.isValid)(string) || string.length === 0) {
+    if (!(0, validation_1.isValidParentheses)(string) || string.length === 0) {
         return 'incorrect input';
     }
     var setValidString = infixIntoPolish(string);
     var result = (0, exports.isInt)(calculate(setValidString));
-    return result.toString();
+    return result === 'NaN' ? 'incorrect input' : result.toString();
 });

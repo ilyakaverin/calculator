@@ -1,7 +1,7 @@
-export const ops = ['+', '-', '/', 'x'];
+import { isValidParentheses } from "./validation";
 
 const priority = {
-  x: 1,
+  'x': 1,
   '/': 1,
   '+': 0,
   '-': 0,
@@ -10,14 +10,16 @@ const priority = {
 const operators = {
   '+': (x, y) => x + y,
   '-': (x, y) => x - y,
-  x: (x, y) => x * y,
+  'x': (x, y) => x * y,
   '/': (x, y) => x / y,
   '*': (x, y) => x * y,
 };
 
-export const isInt = (number: number) => (Number.isInteger(number) ? number : number.toFixed(2));
 
+
+export const isInt = (number: number) => (Number.isInteger(number) ? number : number.toFixed(2));
 export const last = (string: string) => string[string.length - 1];
+export const backSpace = (string: string) => string.slice(0, string.length - 1);
 
 export const parse = (str: string) => {
   const separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
@@ -41,29 +43,6 @@ export const parse = (str: string) => {
   return result;
 };
 
-export const backSpace = (string: string) => string.slice(0, string.length - 1);
-
-export const isValid = (string: string) => {
-  const open = ['('];
-  const close = [')'];
-  const stack = [];
-
-  for (let i = 0; i < string.length; i += 1) {
-    if (open.includes(string[i])) {
-      stack.push(string[i]);
-    }
-    if (close.includes(string[i])) {
-      if (
-        close.indexOf(string[i])
-                !== open.indexOf(stack[stack.length - 1])
-      ) {
-        return false;
-      }
-      stack.pop();
-    }
-  }
-  return stack.length === 0;
-};
 export const sqrt = (string: string) => {
   const array: (string | number)[] = parse(string);
   const result = array
@@ -140,10 +119,10 @@ const calculate = (array: (string | number)[]) => {
 };
 
 export default (string: string) => {
-  if (!isValid(string) || string.length === 0) {
+  if (!isValidParentheses(string) || string.length === 0) {
     return 'incorrect input';
   }
   const setValidString = infixIntoPolish(string);
   const result = isInt(calculate(setValidString));
-  return result.toString();
+  return result === 'NaN' ? 'incorrect input' : result.toString();
 };
