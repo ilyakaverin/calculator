@@ -9,10 +9,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-exports.percent = exports.sqrt = exports.parse = exports.backSpace = exports.last = exports.isInt = void 0;
+exports.percent = exports.sqrt = exports.parse = exports.backSpace = exports.isInt = void 0;
 var validation_1 = require("./validation");
 var priority = {
-    'x': 1,
+    x: 1,
     '/': 1,
     '+': 0,
     '-': 0,
@@ -21,17 +21,16 @@ var priority = {
 var operators = {
     '+': function (x, y) { return x + y; },
     '-': function (x, y) { return x - y; },
-    'x': function (x, y) { return x * y; },
+    x: function (x, y) { return x * y; },
     '/': function (x, y) { return x / y; },
     '*': function (x, y) { return x * y; }
 };
 var isInt = function (number) { return (Number.isInteger(number) ? number : number.toFixed(2)); };
 exports.isInt = isInt;
-var last = function (string) { return string[string.length - 1]; };
-exports.last = last;
 var backSpace = function (string) { return string.slice(0, string.length - 1); };
 exports.backSpace = backSpace;
 var parse = function (str) {
+    // eslint-disable-next-line
     var separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
     var removedSpaces = separateOpsAndNums.filter(function (i) { return i !== ''; });
     for (var i = 0; i < removedSpaces.length; i += 1) {
@@ -64,12 +63,16 @@ var sqrt = function (string) {
 exports.sqrt = sqrt;
 var percent = function (str) {
     var array = (0, exports.parse)(str);
+    var lastSym = array[array.length - 1];
+    if (typeof lastSym !== 'number') {
+        return str;
+    }
     if (array.length === 1 && array[0] > 0) {
-        return array[0] / 100;
+        return lastSym / 100;
     }
     for (var i = array.length - 2; i >= 0; i -= 1) {
-        if (!isNaN(array[i])) {
-            array[array.length - 1] = (array[i] * array[array.length - 1]) / 100;
+        if (typeof array[i] === 'number') {
+            array[array.length - 1] = (array[i] * lastSym) / 100;
             break;
         }
     }
@@ -87,13 +90,13 @@ var infixIntoPolish = function (str) {
             opsStack.push(sym);
         }
         if (sym === ')') {
-            while ((0, exports.last)(opsStack) !== '(')
+            while (opsStack[opsStack.length - 1] !== '(')
                 exitStack.push(opsStack.pop());
             opsStack.pop();
         }
         if (sym in priority) {
-            while ((0, exports.last)(opsStack) in priority
-                && priority[sym] <= priority[(0, exports.last)(opsStack)])
+            while (opsStack[opsStack.length - 1] in priority
+                && priority[sym] <= priority[opsStack[opsStack.length - 1]])
                 exitStack.push(opsStack.pop());
             opsStack.push(sym);
         }

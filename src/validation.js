@@ -1,30 +1,29 @@
 "use strict";
 exports.__esModule = true;
 exports.isValidInput = exports.isValidParentheses = void 0;
-var service_js_1 = require("./service.js");
 var inputDictionary = {
-    "/": 'operation',
-    "7": 'num',
-    "8": 'num',
-    "9": 'num',
-    "x": 'operation',
-    "4": 'num',
-    "5": 'num',
-    "6": 'num',
-    "-": 'minus',
-    "1": 'num',
-    "2": 'num',
-    "3": 'num',
-    "+": 'operation',
-    "00": 'zero',
-    "0": 'zero',
-    ".": 'dot',
-    "=": 'action',
-    "(": 'open',
-    ")": 'close',
-    "C": 'action',
-    "√": 'action',
-    "%": 'action'
+    '/': 'operation',
+    7: 'num',
+    8: 'num',
+    9: 'num',
+    x: 'operation',
+    4: 'num',
+    5: 'num',
+    6: 'num',
+    '-': 'minus',
+    1: 'num',
+    2: 'num',
+    3: 'num',
+    '+': 'operation',
+    '00': 'zero',
+    0: 'zero',
+    '.': 'dot',
+    '=': 'action',
+    '(': 'open',
+    ')': 'close',
+    C: 'action',
+    '√': 'action',
+    '%': 'action'
 };
 var isValidParentheses = function (string) {
     var open = ['('];
@@ -47,13 +46,14 @@ var isValidParentheses = function (string) {
 exports.isValidParentheses = isValidParentheses;
 var isValidInput = function (input, expression) {
     var inputType = inputDictionary[input];
-    var lastSym = (0, service_js_1.last)(expression);
+    var lastSym = expression[expression.length - 1];
     var isCorrectLastSym = inputType === 'operation' && (inputDictionary[lastSym] !== 'num' && inputDictionary[lastSym] !== 'zero');
-    var isCorrectDots = inputType === 'dot' && inputDictionary[lastSym] !== 'num';
+    var isCorrectDots = (inputType === 'dot' && inputDictionary[lastSym] !== 'num') && inputDictionary[lastSym] !== 'zero';
     var isCorrectZero = inputType === 'zero' && (expression.length === 0 || inputDictionary[lastSym] === 'close');
     var isCorrectNums = inputType === 'num' && inputDictionary[lastSym] === 'close';
     var action = inputType === 'action';
     var isCorrectMinus = inputType === 'minus' && (inputDictionary[lastSym] !== 'num' && expression.length !== 0) && (inputDictionary[lastSym] !== 'open' && inputDictionary[lastSym] !== 'zero');
+    var isCorrectBraces = inputType === 'open' && inputDictionary[lastSym] === 'num';
     if (isCorrectNums)
         return false;
     if (isCorrectLastSym)
@@ -66,6 +66,8 @@ var isValidInput = function (input, expression) {
         return false;
     if (isCorrectMinus)
         return false;
-    return input in inputDictionary ? true : false;
+    if (isCorrectBraces)
+        return false;
+    return input in inputDictionary;
 };
 exports.isValidInput = isValidInput;

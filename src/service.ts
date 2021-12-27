@@ -1,27 +1,25 @@
-import { isValidParentheses } from "./validation";
+import { isValidParentheses } from './validation';
 
-const priority = {
-  'x': 1,
+const priority: any = {
+  x: 1,
   '/': 1,
   '+': 0,
   '-': 0,
   '*': 1,
 };
 const operators = {
-  '+': (x, y) => x + y,
-  '-': (x, y) => x - y,
-  'x': (x, y) => x * y,
-  '/': (x, y) => x / y,
-  '*': (x, y) => x * y,
+  '+': (x: number, y: number) => x + y,
+  '-': (x: number, y: number) => x - y,
+  x: (x: number, y: number) => x * y,
+  '/': (x: number, y: number) => x / y,
+  '*': (x: number, y: number) => x * y,
 };
 
-
-
 export const isInt = (number: number) => (Number.isInteger(number) ? number : number.toFixed(2));
-export const last = (string: string) => string[string.length - 1];
 export const backSpace = (string: string) => string.slice(0, string.length - 1);
 
 export const parse = (str: string) => {
+  // eslint-disable-next-line
   const separateOpsAndNums = str.split(/([\+\-\x\*\/\(\)])/);
   const removedSpaces = separateOpsAndNums.filter((i) => i !== '');
 
@@ -46,6 +44,7 @@ export const parse = (str: string) => {
 export const sqrt = (string: string) => {
   const array: (string | number)[] = parse(string);
   const result = array
+  // eslint-disable-next-line
     .map((item: number, index) => (index === array.length - 1
       ? item < 0
         ? 'cant sqrt negative'
@@ -57,14 +56,19 @@ export const sqrt = (string: string) => {
 };
 
 export const percent = (str: string) => {
+  // eslint-disable-next-line
   const array: any[] = parse(str);
+  const lastSym = array[array.length - 1];
+  if (typeof lastSym !== 'number') {
+    return str;
+  }
 
   if (array.length === 1 && array[0] > 0) {
-    return array[0] / 100;
+    return lastSym / 100;
   }
   for (let i = array.length - 2; i >= 0; i -= 1) {
-    if (!isNaN(array[i])) {
-      array[array.length - 1] = (array[i] * array[array.length - 1]) / 100;
+    if (typeof array[i] === 'number') {
+      array[array.length - 1] = (array[i] * lastSym) / 100;
       break;
     }
   }
@@ -73,7 +77,8 @@ export const percent = (str: string) => {
 
 const infixIntoPolish = (str: string) => {
   const array = parse(str);
-  const opsStack: any = [];
+
+  const opsStack: any[] = [];
   const result = array.reduce((exitStack, sym: string | number) => {
     if (typeof sym === 'number') {
       exitStack.push(sym);
@@ -83,14 +88,14 @@ const infixIntoPolish = (str: string) => {
     }
 
     if (sym === ')') {
-      while (last(opsStack) !== '(') exitStack.push(opsStack.pop());
+      while (opsStack[opsStack.length - 1] !== '(') exitStack.push(opsStack.pop());
       opsStack.pop();
     }
 
     if (sym in priority) {
       while (
-        last(opsStack) in priority
-                && priority[sym] <= priority[last(opsStack)]
+        opsStack[opsStack.length - 1] in priority
+                && priority[sym] <= priority[opsStack[opsStack.length - 1]]
       ) exitStack.push(opsStack.pop());
       opsStack.push(sym);
     }
@@ -98,7 +103,7 @@ const infixIntoPolish = (str: string) => {
     return exitStack;
   }, []);
   const reversed = opsStack.reverse();
-  
+
   return [...result, ...reversed];
 };
 

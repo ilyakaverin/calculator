@@ -1,66 +1,53 @@
-import './Buttons.css';
-import { useRef, useEffect } from 'react'; 
-import calculation, { isValidInput, last, sqrt, percent, backSpace } from '../../service.js';
-import { isValidInput } from '../../validation.js';
-
-const buttonsOrder = [
-    'C', '√',  '%', '/', '7',
-    '8', '9',  'x', '4', '5',
-    '6', '-',  '1', '2', '3',
+"use strict";
+exports.__esModule = true;
+require("./Buttons.css");
+var react_1 = require("react");
+var service_js_1 = require("../../service.js");
+var validation_js_1 = require("../../validation.js");
+var buttonsOrder = [
+    'C', '√', '%', '/', '7',
+    '8', '9', 'x', '4', '5',
+    '6', '-', '1', '2', '3',
     '+', '00', '0', '.', '=',
     '(', ')'
-  ]
-
-
-const Button = ({ setExpression, setResult, expression }) => {
-
-    const divToFocus = useRef(null);
-    const isNumber = !isNaN(last(expression)) || last(expression) === ')';
-
-    useEffect(() => {
+];
+var Button = function (_a) {
+    var setExpression = _a.setExpression, setResult = _a.setResult, expression = _a.expression;
+    var divToFocus = (0, react_1.useRef)(null);
+    var isNumber = !isNaN(expression[expression.length - 1]) || expression[expression.length - 1] === ')';
+    (0, react_1.useEffect)(function () {
         divToFocus.current.focus();
-     },[]);
-
-    const handleClick = (e) => {
-
-        
-
-        if(isValidInput(e.target.innerHTML, expression)) {
-            setExpression(prevState => prevState += e.target.innerHTML);
+    }, []);
+    var handleClick = function (e) {
+        if ((0, validation_js_1.isValidInput)(e.target.innerHTML, expression)) {
+            setExpression(function (prevState) { return prevState += e.target.innerHTML; });
         }
-        if(e.target.innerHTML === '=' && isNumber) setResult(calculation(expression));
-        if(e.target.innerHTML === '√' && isNumber) setExpression(sqrt(expression));
-        if(e.target.innerHTML === '%' && isNumber) setExpression(percent(expression));
-
-        if(e.target.innerHTML === 'C') {
+        if (e.target.innerHTML === '=' && isNumber)
+            setResult((0, service_js_1["default"])(expression));
+        if (e.target.innerHTML === '√' && isNumber)
+            setExpression((0, service_js_1.sqrt)(expression));
+        if (e.target.innerHTML === '%' && isNumber)
+            setExpression((0, service_js_1.percent)(expression));
+        if (e.target.innerHTML === 'C') {
             setResult('');
             setExpression('');
         }
-
-        };
-        const onKeyPressed = (e) => {
-
-            if(isValidInput(e.key, expression)) setExpression(prevState => prevState += e.key);
-          
-          if(e.key === 'Enter' && isNumber) setResult(calculation(expression));
-          if(e.key === '√' && isNumber) setExpression(sqrt(expression));
-          if(e.key === '%' && isNumber) setExpression(percent(expression));
-        
-          if (e.key === "Backspace" && expression.length !== 0) {
-            setExpression((prevState) => backSpace(prevState));
-          } 
-          
-        
-            
-              
-            };
-    return (
-        <div onKeyDown={onKeyPressed}  ref={divToFocus} tabIndex={0}  className="grid">
-        {
-            buttonsOrder.map((value, index) => <button onClick={handleClick} key={index} >{value}</button>)
+    };
+    var onKeyPressed = function (e) {
+        if ((0, validation_js_1.isValidInput)(e.key, expression))
+            setExpression(function (prevState) { return prevState += e.key; });
+        if (e.key === 'Enter' && isNumber)
+            setResult((0, service_js_1["default"])(expression));
+        if (e.key === '√' && isNumber)
+            setExpression((0, service_js_1.sqrt)(expression));
+        if (e.key === '%' && isNumber)
+            setExpression((0, service_js_1.percent)(expression));
+        if (e.key === "Backspace" && expression.length !== 0) {
+            setExpression(function (prevState) { return (0, service_js_1.backSpace)(prevState); });
         }
-            </div>
-        
-    )
-}
-export default Button
+    };
+    return (<div onKeyDown={onKeyPressed} ref={divToFocus} tabIndex={0} className="grid">
+        {buttonsOrder.map(function (value, index) { return <button onClick={handleClick} key={index}>{value}</button>; })}
+            </div>);
+};
+exports["default"] = Button;
