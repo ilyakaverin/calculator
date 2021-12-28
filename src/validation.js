@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.isValidInput = exports.isValidParentheses = void 0;
+exports.isValidInput = exports.isValidParentheses = exports.isNumber = void 0;
 var inputDictionary = {
     '/': 'operation',
     7: 'num',
@@ -25,6 +25,12 @@ var inputDictionary = {
     '√': 'action',
     '%': 'action'
 };
+var isNumber = function (string) {
+    var lastSymbol = string[string.length - 1];
+    var number = Number(lastSymbol);
+    return !Number.isNaN(number) || lastSymbol === ')';
+};
+exports.isNumber = isNumber;
 var isValidParentheses = function (string) {
     var open = ['('];
     var close = [')'];

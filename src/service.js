@@ -52,6 +52,7 @@ exports.parse = parse;
 var sqrt = function (string) {
     var array = (0, exports.parse)(string);
     var result = array
+        // eslint-disable-next-line
         .map(function (item, index) { return (index === array.length - 1
         ? item < 0
             ? 'cant sqrt negative'
@@ -62,6 +63,7 @@ var sqrt = function (string) {
 };
 exports.sqrt = sqrt;
 var percent = function (str) {
+    // eslint-disable-next-line
     var array = (0, exports.parse)(str);
     var lastSym = array[array.length - 1];
     if (typeof lastSym !== 'number') {

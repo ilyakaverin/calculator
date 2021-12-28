@@ -23,6 +23,12 @@ const inputDictionary: any = {
   '%': 'action',
 };
 
+export const isNumber = (string: string) => {
+  const lastSymbol = string[string.length - 1];
+  const number = Number(lastSymbol);
+  return !Number.isNaN(number) || lastSymbol === ')'
+}
+
 export const isValidParentheses = (string: string) => {
   const open = ['('];
   const close = [')'];

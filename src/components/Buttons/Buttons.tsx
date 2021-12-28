@@ -1,20 +1,27 @@
 import './Buttons.css';
 import { useRef, useEffect } from 'react';
 import calculation, { sqrt, percent, backSpace } from '../../service';
-import { isValidInput } from '../../validation';
+import { isValidInput, isNumber } from '../../validation';
 
-const buttonsOrder = [
+const buttonsOrder: string[] = [
   'C', '√', '%', '/', '7',
   '8', '9', 'x', '4', '5',
   '6', '-', '1', '2', '3',
   '+', '00', '0', '.', '=',
   '(', ')',
 ];
+interface SetDisplay {
+    setExpression: any,
+    setResult: any,
+    expression: string
+}
 
-const Button = ({ setExpression, setResult, expression }) => {
+const Button = ({ setExpression, setResult, expression }: SetDisplay) => {
   const divToFocus = useRef(null);
-  // eslint-disable-next-line
-  const isNumber = !isNaN(expression[expression.length - 1]) || expression[expression.length - 1] === ')';
+
+  const isValidExpression = isNumber(expression);
+
+  console.log('kek')
 
   useEffect(() => {
     divToFocus.current.focus();
@@ -25,9 +32,9 @@ const Button = ({ setExpression, setResult, expression }) => {
       // eslint-disable-next-line
         setExpression((prevState) => (prevState += e.target.innerHTML));
     }
-    if (e.target.innerHTML === '=' && isNumber) setResult(calculation(expression));
-    if (e.target.innerHTML === '√' && isNumber) setExpression(sqrt(expression));
-    if (e.target.innerHTML === '%' && isNumber) setExpression(percent(expression));
+    if (e.target.innerHTML === '=' && isValidExpression) setResult(calculation(expression));
+    if (e.target.innerHTML === '√' && isValidExpression) setExpression(sqrt(expression));
+    if (e.target.innerHTML === '%' && isValidExpression) setExpression(percent(expression));
 
     if (e.target.innerHTML === 'C') {
       setResult('');

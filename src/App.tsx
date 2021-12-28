@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Buttons from './components/Buttons/Buttons';
 
 const App = () => {
-  const [expression, setExpression] = useState('');
-  const [result, setResult] = useState('');
+  const [expression, setExpression] = useState<string>('');
+  const [result, setResult] = useState<string>('');
 
   return (
         <div className="calculator-container">
